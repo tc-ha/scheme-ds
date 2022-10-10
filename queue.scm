@@ -1,0 +1,43 @@
+(define (make-queue)
+  (list '() '()))
+
+(define (empty? q)
+  (null? (car q)))
+
+(define (enqueue x q)
+  (set-car! q (cons x (car q))))
+
+(define (dequeue q)
+  (if (empty? q)
+      (error "Empty queue -- DEQUEUE")
+      (let ((x (car (cdr q))))
+        (if (null? x)
+            (begin
+              (set-cdr! q (car q))
+              (set-car! q '()))
+            (set-cdr! q (cdr x)))
+        x)))
+
+(define (first-queue q)
+  (if (empty? q)
+      (error "Empty queue -- FIRST-QUEUE")
+      (car (cdr q))))
+
+(define (print-queue q)
+  (if (empty? q)
+      (display "Empty queue")
+      (display (cdr q))))
+
+(define q (make-queue))
+(enqueue 1 q)
+(enqueue 2 q)
+(enqueue 3 q)
+(print-queue q)
+(dequeue q)
+(print-queue q)
+(dequeue q)
+(print-queue q)
+(dequeue q)
+(print-queue q)
+(dequeue q)
+(print-queue q)
