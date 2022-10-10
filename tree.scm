@@ -1,0 +1,33 @@
+(define (insert tree data)
+  (cond ((null? tree) (cons data '()))
+        ((< data (car tree)) (cons (car tree) (insert (cdr tree) data)))
+        ((> data (car tree)) (cons (car tree) (insert (cdr tree) data)))
+        (else (display "Value already in tree!"))))
+
+(define (find tree data)
+  (cond ((null? tree) #f)
+        ((= data (car tree)) #t)
+        ((< data (car tree)) (find (cdr tree) data))
+        ((> data (car tree)) (find (cdr tree) data))))
+
+(define (inorder-print-tree tree)
+  (cond ((null? tree) '())
+        (else (begin (inorder-print-tree (cdr tree))
+                     (display (car tree))
+                     (newline)))))
+
+(define (is-bst-satisfied tree)
+  (cond ((null? tree) #t)
+        ((< (car tree) (cadr tree)) (is-bst-satisfied (cdr tree)))
+        (else #f)))
+
+(define (fill-tree tree num-elems max-int)
+  (define (fill-tree-iter tree num-elems max-int)
+    (cond ((= num-elems 0) tree)
+          (else (fill-tree-iter (insert tree (random max-int)) (- num-elems 1) max-int))))
+  (fill-tree-iter tree num-elems max-int))
+
+(define tree (list))
+(define tree (fill-tree tree 100 1000))
+(inorder-print-tree tree)
+(is-bst-satisfied tree)
